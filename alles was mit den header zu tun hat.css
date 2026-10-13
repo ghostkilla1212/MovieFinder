@@ -20,12 +20,12 @@
 
 
 .button-container {
-    position: absolute; /*position absolute sorgt dafur dass top nach unten geht obwohl es dafur da ist dass es oben ist*/
+    position: absolute; /*sorgt dafur dass top nach unten geht*/
     top: 10%; /*nach unten 10%*/
     left: 10%; /*links mitte 10%*/
 
     display: flex; /*display flex*/
-    gap: 20px; /*20 px innenabstand*?
+    gap: 20px; /*20 px innenabstand*/
 }
 
 
@@ -37,3 +37,4 @@
     color: white; /*richtige frabe weis*/
     text-decoration: none; /*das der untere strich weg ist*/
 }
+   
