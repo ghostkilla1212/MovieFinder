@@ -2,7 +2,7 @@
 
 
 <h2>What is MovieFinder?</h2>
-<P>Movie Finder is a web project designed to help users discover movies and TV shows, get information, and find suitable streaming services.</P>
+<P>Movie Finder is a web project designed to help users discover movies.</P>
 
 <h3>🛠️ Technologies</h3>
 <P>html Website Structure
