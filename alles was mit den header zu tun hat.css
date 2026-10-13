@@ -20,12 +20,12 @@
 
 
 .button-container {
-    position: absolute;
-    top: 10%;
-    left: 10%;
+    position: absolute; /*position absolute sorgt dafur dass top nach unten geht obwohl es dafur da ist dass es oben ist*/
+    top: 10%; /*nach unten 10%*/
+    left: 10%; /*links mitte 10%*/
 
-    display: flex;
-    gap: 20px;
+    display: flex; /*display flex*/
+    gap: 20px; /*20 px innenabstand*?
 }
 
 
