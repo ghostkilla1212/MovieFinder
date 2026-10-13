@@ -21,7 +21,7 @@
 
 .button-container {
     position: absolute; /*sorgt dafur dass top nach unten geht*/
-    top: 10%; /*nach unten 10%*/
+    top: 40%; /*nach unten 40%*/
     left: 10%; /*links mitte 10%*/
 
     display: flex; /*display flex*/
