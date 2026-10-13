@@ -1,0 +1,29 @@
+.headerbar {
+     background-color: #200609; /*hintergrund farbe des headers*/
+    position: fixed; /*fixiert die position des headers das er */
+    top: 0%; /*damit die headerbar oben am rand klebt*/
+    left: 0%; /*damit die headerbar nicht nach links geht 0 ist da dass es am rand links klebt*/
+    width: 122%; /*breite 122%*/
+    height: 12%; /*grose 12%*/
+}
+
+.headerbar-logo {
+    background: none; /*damit der hintergrund des logos auf 0 ist damit man es nicht sieht*/
+    border: none; /*none ist da dass man den rand nicht sieht*/
+}
+
+.logo {
+  height: 80%; /*dass ist dafur da dass das logo 80% gros ist*/
+  position: absolute; /*position absolote*/
+  top: 10%; /*ist dafur da das 10% unten ist position absolute is da das es egal ist*/
+}
+
+.about-me {
+   background: none; /*dass ist dafur da das der hintergrund von den button unsichbar ist*/
+   border: none; /*sorgt dafur dass der rand unsichbar ist*/
+}
+
+a {
+    color: inherit; /*sorgt dafur dass die link schrift weg ist*/
+    color: white; /*richtige frabe weis*/
+}
