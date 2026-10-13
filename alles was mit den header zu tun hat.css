@@ -36,5 +36,10 @@
    color: inherit; /*sorgt dafur dass die link schrift weg ist*/
     color: white; /*richtige frabe weis*/
     text-decoration: none; /*das der untere strich weg ist*/
+    transition-duration: 0.4s;
+}
+
+.btn:hover {
+   color: rgba(255, 255, 255, 0.664);
 }
    
