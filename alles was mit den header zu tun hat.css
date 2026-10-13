@@ -21,6 +21,11 @@
 .about-me {
    background: none; /*dass ist dafur da das der hintergrund von den button unsichbar ist*/
    border: none; /*sorgt dafur dass der rand unsichbar ist*/
+    display: flex; /*macht das flexibel*/
+    position: absolute; /*position absolute*/
+    top: 33%; /*top 33% nach unten*/
+    margin-left: 10%; /*links 10%*/
+    font-size: 18px; /*grose 18px*/
 }
 
 a {
