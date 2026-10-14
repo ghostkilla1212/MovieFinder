@@ -2,3 +2,10 @@ body {
     background-color: color-mix(in srgb, black, rgb(99, 12, 12)); /*hintergrund farbe der webseite*/
 }
 
+
+
+::selection {
+    background-color: red; /* Gelber Hintergrund */
+    color: white;            /* Schwarze Schrift */
+}
+
