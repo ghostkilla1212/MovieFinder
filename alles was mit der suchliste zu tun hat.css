@@ -5,21 +5,28 @@
 .searchbar-container input {
     background-color: #46151B;
     border: 2px solid  #202020;
-    padding: 10px;
+    padding: 20px;
     width: 350px;
-    border-radius: 4%;
+    border-radius: 3%;
+    color: white;
 }
 
 .search-button {
     background: none;
     border: none;
-     position: relative;
-   transform: translateX(-200%);
-   top: 800%;
+    cursor: pointer;
+    
 }
 
 .search-button img {
-   width: 22px;
-   height: 22px;
+    width: 22px;
+    height: 22px;
 }
+
+
+.searchbar-container input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 

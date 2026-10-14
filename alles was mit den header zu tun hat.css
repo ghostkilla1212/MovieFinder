@@ -3,7 +3,7 @@
     position: fixed; /*fixiert die position des headers das er */
     top: 0%; /*damit die headerbar oben am rand klebt*/
     left: 0%; /*damit die headerbar nicht nach links geht 0 ist da dass es am rand links klebt*/
-    width: 122%; /*breite 122%*/
+    width: 100%; /*breite 100%*/
     height: 12%; /*grose 12%*/
 }
 
@@ -22,7 +22,7 @@
 .button-container {
     position: absolute; /*sorgt dafur dass top nach unten geht*/
     top: 40%; /*nach unten 40%*/
-    left: 10%; /*links mitte 10%*/
+    left: 12%; /*links mitte 12%*/
 
     display: flex; /*display flex*/
     gap: 20px; /*20 px innenabstand*/
