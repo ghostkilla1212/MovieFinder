@@ -10,8 +10,15 @@
     border-radius: 4%;
 }
 
-.search-icon img {
-   background: none;
-   border: none;
+.search-button {
+    background: none;
+    border: none;
+}
+
+.search-button img {
+   width: 22px;
+   height: 22px;
+   position: relative;
+   right: 222%;
 }
 
