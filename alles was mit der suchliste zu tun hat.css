@@ -1,26 +1,26 @@
 .searchbar-container {
-    text-align: center;
+    text-align: center; /*text algin center sorgt dafür dass die searchbar in der mitte ist und nicht links*/
 }
 
 .searchbar-container input {
-    background-color: #46151B;
-    border: 2px solid  #202020;
-    padding: 20px;
-    width: 350px;
-    border-radius: 3%;
-    color: white;
+    background-color: #46151B; /*background color sorgt dass die seaarchbar eine hintergrund farbe hat*/
+    border: 2px solid  #202020; /*rand ist dafür da dass der rand eine graue umrandung hat*/
+    padding: 20px; /*abstand sorgt dafür dass der innen abstand der searchbar 20px gros ist*/
+    width: 350px; /*breite 350 macht dass die searchbar 350 px breit ist ausen*/
+    border-radius: 24px; /*rahmenradius macht dass das ausen rund ist die serachbar*/
+    color: white; /*dass der innentext wenn du schreibst das der weis ist*/
 }
 
 .search-button {
-    background: none;
-    border: none;
-    cursor: pointer;
+    background: none; /*background kiens ist da dass der hinetrgrund vom button weg ist*/
+    border: none; /*rand keins macht dass kein rand da ist*/
+    cursor: pointer; /*damit der cursor zu hand wird*/
     
 }
 
 .search-button img {
-    width: 22px;
-    height: 22px;
+    width: 22px; /*breite vom button von der lupe 22px*/
+    height: 22px; /*gröse von der lupe 22px*/
 }
 
 
