@@ -13,12 +13,13 @@
 .search-button {
     background: none;
     border: none;
+     position: relative;
+   transform: translateX(-200%);
+   top: 800%;
 }
 
 .search-button img {
    width: 22px;
    height: 22px;
-   position: relative;
-   right: 222%;
 }
 
