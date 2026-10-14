@@ -1,8 +1,17 @@
 .searchbar-container {
     text-align: center;
-    position: relative;
-    top: 20%;
 }
 
+.searchbar-container input {
+    background-color: #46151B;
+    border: 2px solid  #202020;
+    padding: 10px;
+    width: 350px;
+    border-radius: 4%;
+}
 
+.search-icon img {
+   background: none;
+   border: none;
+}
 
