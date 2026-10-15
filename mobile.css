@@ -1,0 +1,67 @@
+@media screen and (max-width: 768px) {
+.searchbar-container {
+    text-align: center; /*text algin center sorgt dafür dass die searchbar in der mitte ist und nicht links*/
+    margin-left: 26%;
+}
+
+.searchbar-container input {
+    background-color: #46151B; /*background color sorgt dass die seaarchbar eine hintergrund farbe hat*/
+    border: 2px solid  #202020; /*rand ist dafür da dass der rand eine graue umrandung hat*/
+    padding: 20px; /*abstand sorgt dafür dass der innen abstand der searchbar 20px gros ist*/
+    width: 230px; /*breite 350 macht dass die searchbar 350 px breit ist ausen*/
+    border-radius: 24px; /*rahmenradius macht dass das ausen rund ist die serachbar*/
+    color: white; /*dass der innentext wenn du schreibst das der weis ist*/
+}
+
+
+
+.search-button img {
+    width: 22px; /*breite vom button von der lupe 22px*/
+    height: 22px; /*gröse von der lupe 22px*/
+}
+
+
+.searchbar-container input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+}
+
+@media screen and (max-width: 768px) {
+    .login-button {
+        display: none;
+    }
+
+  .headerbar {
+    background: transparent;
+  }
+
+  .btn {
+    display: none;
+  }
+
+  .logo{
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+.login-button {
+    display: none;
+}
+
+.headerbar {
+    background: transparent;
+  }
+
+   .btn {
+    display: none;
+  }
+
+   .logo{
+    width: 80px;
+    height: 80px;
+  }
+}
