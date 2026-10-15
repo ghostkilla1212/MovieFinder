@@ -28,3 +28,9 @@ p {
     color: white;
     font-size: 800%;
 }
+
+.subtitle {
+    color: white;
+    font-size: 200%;
+    text-align: center;
+}

@@ -7,7 +7,7 @@ const container = document.querySelector('.cards-container');
 
 // Nur suchen, wenn der User wirklich ein Wort eingegeben hat
 if (mySearchTerm) {
-    
+   
     // HIER IST DIE KORREKTE ADRESSE MIT DEM DOLLARZEICHEN:
     // Add the '$' for interpolation and ensure the API path is correct
 fetch(`https://api.tvmaze.com/search/shows?q=${mySearchTerm}`)
@@ -18,9 +18,11 @@ fetch(`https://api.tvmaze.com/search/shows?q=${mySearchTerm}`)
             // 3. Das Fließband erstellt für jeden Film eine Karte
             data.forEach(item => {
                 const show = item.show;
-                
+               
                 // Sicherheitsnetz, falls eine Serie mal kein Poster hat
                 const posterUrl = show.image ? show.image.medium : 'https://placehold.co';
+                 const releaseYear = show.premiered ? show.premiered.slice(0, 4) : 'Unbekannt';
+
 
                 // 4. Deine HTML-Vorlage mit dem Bild befüllen
                 container.innerHTML += `
@@ -31,7 +33,7 @@ fetch(`https://api.tvmaze.com/search/shows?q=${mySearchTerm}`)
             });
         })
         .catch(error => console.error("Fehler beim Laden:", error));
-        
+       
 } else {
     if (container) {
         container.innerHTML = "<p>error</p>";
