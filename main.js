@@ -1,7 +1,7 @@
 
 const popularShows = document.querySelector(".popular-shows");
 
-const showNames = ["The Last of Us", "Wednesday", "The Witcher", "Stranger Things", "Joker", "Home Alone"];
+const showNames = ["The Last of Us", "Wednesday", "The Witcher", "Stranger Things", "Joker", "Home Alone", "superman", "kevin", "santa", "santa claus", "joker", "keeping",];
 
 showNames.forEach((showName) => {
     const card = document.createElement("article");
