@@ -2,10 +2,52 @@ body {
     background-color: color-mix(in srgb, black, rgb(99, 12, 12)); /*hintergrund farbe der webseite*/
 }
 
+.popular-section {
+    box-sizing: border-box;
+    margin: 14vh auto 0;
+    max-width: 1100px;
+    padding: 24px;
+    width: 100%;
+}
+
+.popular-shows {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.show-card {
+    background-color: #1c1c1c;
+    border-radius: 12px;
+    color: white;
+    overflow: hidden;
+}
+
+.show-poster {
+    display: block;
+    height: auto;
+    width: 100%;
+}
+
+.show-card h2 {
+    font-size: 1.1rem;
+    margin: 12px;
+}
+
+@media (max-width: 700px) {
+    .popular-shows {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .popular-shows {
+        grid-template-columns: 1fr;
+    }
+}
 
 
 ::selection {
     background-color: red; /* Gelber Hintergrund */
     color: white;            /* Schwarze Schrift */
 }
-
