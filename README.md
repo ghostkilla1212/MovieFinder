@@ -12,8 +12,6 @@ js logic
 api https://www.tvmaze.com/api
 
 
-<h4>📌 Project Status</h4>
-<P>Status: In development; duration: 3 weeks</P>
 
 <P>⚠️ Important Note
 
