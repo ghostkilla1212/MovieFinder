@@ -2,3 +2,29 @@
     color: white; /*text farbe*/
     text-align: center; /*text mitte*/
 }
+
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.cards {
+      background-color: #1c1c1c; /* Ein schönes Dunkelgrau für den Hintergrund */
+    border-radius: 12px;       /* Abgerundete Ecken */
+    overflow: hidden;          /* Schneidet das API-Bild an den Ecken sauber ab */
+    transition: transform 0.3s ease; /* Bereitet die Karte auf coole Hover-Effekte vor */
+}
+
+.movie-poster {
+    width: 100%;
+    height: auto;
+    display: block; /* Verhindert einen kleinen, hässlichen weißen Spalt unter dem Bild */
+}
+
+p {
+    color: white;
+    font-size: 800%;
+}
