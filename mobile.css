@@ -75,5 +75,5 @@
 @media (max-width: 480px) {
     .popular-shows {
         grid-template-columns: 1fr;
-    }
+    } 
 }
