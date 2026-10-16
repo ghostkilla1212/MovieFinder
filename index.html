@@ -30,18 +30,35 @@
                 </button>
             </div>
 
-           <button class="login-button">
-            <img src="MovieFinder images icons usw/user (3).png">
-            <a href="#muss gemacht werde noch">login</a>
-           </button>
+
+           <div class="popup" id="popUp">
+            <h1 class="popup-heading">welcome</h1>
+            <p class="popup-subtitle">Note: Logging in is handled by JavaScript; this is only a simulation. Please do not enter your real information. Thank you.</p>
+            <div class="login-container"><label for="email"><b></b>your email address</label>
+    <input id="email" type="email" placeholder="Enter email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
+
+    <button id="loginButton" type="submit">Login</button>
+    <label>
+
+ 
+      <p id="messageField"></p>
+
+      <button class="closeButton" id="closeButton">x</button>
+           </div>
         </div>
     </div>
+
+
     <section class="popular-section">
         <div class="popular-shows">
             <!-- Die Karten werden hier von JavaScript eingefügt -->
         </div>
     </section>
     <script src="main.js"></script>
+    <script src="anmedlen simulation.js"></script>
      <script src="suchliste vorlage.js"></script>
 </body>
 </html>

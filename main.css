@@ -40,4 +40,38 @@ body {
     color: white;            /* Schwarze Schrift */
 }
 
+popup-heading {
+    color: white;
+    text-align: center;
+  padding-bottom: 90px; /* Optional: Abstand nach unten vergrößern */
+}
 
+.popup-subtitle {
+    color: white;
+    text-align: center;
+}
+
+.popup {
+    position: absolute; /*position absolute*/
+    left: 15%; /*macht dass das pop up 15% nach links geht*/
+    top: 200%; /*200% nach unten*/
+    padding: 10%; /*innenabstand*/
+    border-radius: 20px; /*umrandung 20px*/
+    background-color: #351014; /*hintergrund farbe*/
+}
+
+.login-container input {
+    display: block; /*zeigt es unteainander an*/
+    background-color: #55141a; /*hintergrund farbe*/
+    border-radius: 12px; /*umrandung 12px*/
+    border: none; /*rand keins*/
+}
+
+.login-container label {
+    color: white; /*farbe weis*/
+}
+
+.login-container button {
+    background-color: #00ff0d; /*hintergrund frabe*/
+    border: none; /*dass der button kein rand hat*/
+}
