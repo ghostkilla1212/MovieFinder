@@ -8,13 +8,10 @@
 <P>html Website Structure
 css Design and Responsive Layout
 js logic
-TMDB API  Movie data and, where applicable, streaming service information
-OpenAI API  AI Features for the Movie Finder Assistant
-Supabase  Planned Server-Side Processing of AI Requests</P>
+
+api https://www.tvmaze.com/api
 
 
-<h4>📌 Project Status</h4>
-<P>Status: In development; duration: 3 weeks</P>
 
 <P>⚠️ Important Note
 
