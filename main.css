@@ -40,10 +40,10 @@ body {
     color: white;            /* Schwarze Schrift */
 }
 
-popup-heading {
+.popup-heading {
     color: white;
     text-align: center;
-  padding-bottom: 90px; /* Optional: Abstand nach unten vergrößern */
+    font-size: 300%;
 }
 
 .popup-subtitle {
@@ -74,4 +74,5 @@ popup-heading {
 .login-container button {
     background-color: #00ff0d; /*hintergrund frabe*/
     border: none; /*dass der button kein rand hat*/
+    cursor: pointer;
 }
