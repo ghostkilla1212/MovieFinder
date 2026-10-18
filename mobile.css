@@ -57,7 +57,7 @@
   }
 
    .btn {
-    display: none;
+   display: none;
   }
 
    .logo{
@@ -76,4 +76,11 @@
     .popular-shows {
         grid-template-columns: 1fr;
     } 
+}
+
+
+@media (max-width: 480px) {
+    .mobile-btn {
+        display: block;
+    }
 }

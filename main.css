@@ -76,3 +76,7 @@ body {
     border: none; /*dass der button kein rand hat*/
     cursor: pointer;
 }
+
+.mobile-btn {
+    display: none;
+}
