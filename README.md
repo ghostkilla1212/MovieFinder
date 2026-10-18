@@ -10,6 +10,7 @@ css Design and Responsive Layout
 js logic
 
 api https://www.tvmaze.com/api
+hosting provider https://vercel.com/
 
 
 
