@@ -80,3 +80,29 @@ body {
 .mobile-btn {
     display: none;
 }
+
+.number-container {
+     display: flex; /*display flexiebel*/
+    justify-content: center; /*mitte*/
+}
+
+.number {
+    background-color: red; /*hinetrgrund farbe des button rot*/
+    padding: 10px 40px; /*10px grose 40px breite*/
+    border: 2px solid red; /*rand frabe rot*/
+    box-shadow: 0 0 10px red; /*schatten das es ein bissi leuchtet*/
+    cursor: pointer; /*dass der zeiger wenn er auf den button is die hand auf macht*/
+    transition: box-shadow 0.3s ease;
+    border-radius: 12px; /*button rund 12px*/
+    margin: 10px; /*innenabstand 10px*/
+}
+
+.number:hover {
+    box-shadow: 0 0 15px red;
+}
+
+.number a {
+    text-decoration: none; /*text link farbe weg*/
+    color: white; /*frabe von der zahl weis*/
+}
+
