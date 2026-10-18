@@ -1,5 +1,39 @@
-.About-Movie-Finder {
-     font-family: "Wellfleet", serif;
+body {
+  background-color: color-mix(in srgb, black, rgb(99, 12, 12)); /*hintergrund farbe der webseite*/
+}
+
+.heading {
     color: white;
+    text-align: center;
+    font-size: 200%;
+  font-family: "Isometra", serif;
+}
+
+.subtitle {
+    color: white;
+     text-align: center;
+    font-size: 200%;
+    padding: 2%;
+     font-family: "Isometra", serif;
+}
+
+.box {
+     background-color: color-mix(in srgb, rgb(150, 13, 13), rgba(163, 157, 157, 0.596)); /*hintergrund farbe der webseite*/
+    border: 3px solid red;
+    text-align: center;
+    border-radius: 12px;
+    width: 504px;
+    height: 124px;
+    margin: 0 auto;
+}
+
+.box h1 {
+    color: white;
+    font-size: 120%;
+}
+
+.box p {
+    color: white;
+    font-size: 100%;
     text-align: center;
 }
