@@ -1,0 +1,23 @@
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .btn {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .searchbar-container input {
+        margin-left: 20%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+   .logo {
+    height: 60%;
+   }
+}
+
+@media screen and (orientation: landscape) {
+  .btn {
+    display: none;
+  }
+}
