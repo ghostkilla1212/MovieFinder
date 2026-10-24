@@ -1,0 +1,17 @@
+.ai-popup {
+    position: fixed; /*position fixiert*/
+    right: 25px; /*rechts 25 px mitte*/
+    bottom: 25px; /*oben in der mitte 25px*/
+    width: 65px; /*breite 65 px wie ein kreis*/
+    height: 65px; /*grose 65px wie ein kreis*/
+    border: none; /*rand keins*/
+    border-radius: 50%; /*umrandung 50%*/
+    cursor: pointer;
+    background-color: red; /*hintergrund rot*/
+}
+
+.ai-popup img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
