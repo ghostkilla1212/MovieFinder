@@ -17,18 +17,28 @@
 }
 
 .open-popup {
-    display: none; /*display offnet sich nur wenn man auf den button klickt*/
+    display: none; 
     position: absolute; /*position absolute*/
-    left: 15%; /*macht dass das pop up 15% nach links geht*/
-    top: 200%; /*200% nach unten*/
+    right: 20px;
+    top: 10%; /*200% nach unten*/
     width: 30%; /*breite 30px*/
     padding: 10%; /*innenabstand*/
     border-radius: 20px; /*umrandung 20px*/
     background-color: #351014; /*hintergrund farbe*/
 }
 
+.open-popup.active {
+    display: block;
+}
+
+
+
 #closePopups {
     background: none;
     border: none;
     color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 1%;
+    left: 1%;
 }
