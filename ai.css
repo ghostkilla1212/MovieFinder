@@ -26,3 +26,9 @@
     border-radius: 20px; /*umrandung 20px*/
     background-color: #351014; /*hintergrund farbe*/
 }
+
+#closePopups {
+    background: none;
+    border: none;
+    color: white;
+}
