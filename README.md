@@ -12,6 +12,8 @@ js logic
 api https://www.tvmaze.com/api
 hosting provider https://vercel.com/
 
+If you want to support this project, message me on Instagram under the username 33_nabil_ or go to my website and message me there on my social media accounts. Thanks!
+
 
 
 <P>⚠️ Important Note
