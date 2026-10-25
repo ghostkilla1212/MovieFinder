@@ -1,4 +1,4 @@
-.ai-popup {
+.news-popup {
     position: fixed; /*position fixiert*/
     right: 25px; /*rechts 25 px mitte*/
     bottom: 25px; /*oben in der mitte 25px*/
@@ -10,7 +10,7 @@
     background-color: red; /*hintergrund rot*/
 }
 
-.ai-popup img {
+.news-popup img {
     width: 100%;
     height: 100%;
     object-fit: contain;
