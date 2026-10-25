@@ -62,19 +62,11 @@
     left: 120%;
 }
 
-#userInput {
-  white-space: normal; /* Erlaubt den Zeilenumbruch */
-  word-break: break-word; /* Bricht zu lange Wörter am Rand ab */
-  height: auto; /* Das Feld muss hoch genug sein, damit Text unten weitergehen kann */
-}
-
-
-
-.open-popup textarea {
+.open-popup input {
        background-color: rgb(182, 15, 15); /*hintergrundfrabe des nachrichtfeld*/
     border: 2px solid black; /*rand ausen schwarz*/
     padding: 2%; /*innenabstand 2%*/
     position: absolute;
     bottom: 10px; /*unten 10px*/
-    left: 4%;
+    right: 40%; /*rechts mitte 40%*/
 }
