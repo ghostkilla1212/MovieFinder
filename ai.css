@@ -44,29 +44,4 @@
 }
 
 
-#sendButton {
-    background-color: red;
-    color: white;
-    padding: 12px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    bottom: 10px;
-    left: 25%;
-}
 
-#chatMessages {
-    color: red;
-    position: relative;
-    left: 120%;
-}
-
-.open-popup input {
-       background-color: rgb(182, 15, 15); /*hintergrundfrabe des nachrichtfeld*/
-    border: 2px solid black; /*rand ausen schwarz*/
-    padding: 2%; /*innenabstand 2%*/
-    position: absolute;
-    bottom: 10px; /*unten 10px*/
-    right: 40%; /*rechts mitte 40%*/
-}
