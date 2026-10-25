@@ -16,5 +16,12 @@ const sendButton = document.getElementById('sendButton');
 const chatMessages = document.getElementById('chatMessages');
 
 sendButton.addEventListener("click", () => {
- 
+ const text = userInput.value.trim();
+ if (text === "") return;
+
+ const message = document.createElement('div');
+
+ message.textContent = text
+
+ chatMessages.appendChild(message);
 });
