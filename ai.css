@@ -34,15 +34,27 @@
 
 
 #closePopups {
-    background: none;
-    border: none;
-    color: white;
+    background: none; /*hintergrund keins*/
+    border: none; /*rand keins*/
+    color: white; /*farbe weis*/
     cursor: pointer;
-    position: absolute;
-    top: 1%;
-    left: 1%;
+    position: absolute; 
+    top: 1%; /*oben 1%*/
+    left: 1%; /*links 1%*/
 }
 
+
+#sendButton {
+    background-color: red;
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    left: 25%;
+}
 
 .open-popup input {
     background-color: rgb(182, 15, 15); /*hintergrundfrabe des nachrichtfeld*/

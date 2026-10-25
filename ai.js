@@ -9,3 +9,12 @@ aiPopUp.addEventListener("click", () => {
 closePopups.addEventListener("click", () => {
     openPopup.classList.remove("active");
 });
+
+
+const userInput = document.getElementById('userInput');
+const sendButton = document.getElementById('sendButton');
+const chatMessages = document.getElementById('chatMessages');
+
+sendButton.addEventListener("click", () => {
+ 
+});
