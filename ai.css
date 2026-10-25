@@ -56,6 +56,12 @@
     left: 25%;
 }
 
+#chatMessages {
+    color: red;
+    position: relative;
+    left: 125%;
+}
+
 .open-popup input {
     background-color: rgb(182, 15, 15); /*hintergrundfrabe des nachrichtfeld*/
     border: 2px solid black; /*rand ausen schwarz*/
