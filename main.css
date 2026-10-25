@@ -105,8 +105,3 @@ body {
     text-decoration: none; /*text link farbe weg*/
     color: white; /*frabe von der zahl weis*/
 }
-
-
-.ai-popup {
-    display: none;
-}
