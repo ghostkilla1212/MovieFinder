@@ -86,6 +86,13 @@
 }
 
 
+@media (max-width: 480px) {
+    .news-popup {
+        display: none;
+    }
+}
+
+
 
 
 
