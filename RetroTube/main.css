@@ -18,9 +18,6 @@ header {
 }
 
 .menu-btn {
-display: flex;
-align-items: center;
-gap: 10px;
 background: none;
 border: none;
 position: absolute;
@@ -38,3 +35,13 @@ cursor: pointer;
     color: white;
     font-size: 16px;
 }
+
+.menu-btn-text a {
+    color: white;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none; /*entfernt die unterstreichung der links*/
+}
+
