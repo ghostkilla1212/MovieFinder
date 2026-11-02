@@ -23,6 +23,12 @@ body {
     overflow: hidden;
 }
 
+.popular-section-title {
+    color: white;
+    font-size: 350%;
+}
+
+
 .show-poster {
     display: block;
     height: auto;

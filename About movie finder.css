@@ -38,3 +38,9 @@ body {
     font-size: 100%;
     text-align: center;
 }
+
+
+::selection {
+    background-color: red; /* Gelber Hintergrund */
+    color: white;            /* Schwarze Schrift */
+}

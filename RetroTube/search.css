@@ -1,0 +1,27 @@
+.search {
+    position: absolute;
+    left: 40%;
+    top: 30%;
+}
+
+.search input {
+   width: 300px;
+    height: 50px; /*höhe des Suchfeldes*/
+    background-color: #292929a2;
+    border: 2px solid rgba(128, 128, 128, 0.788); /*rahmenfarbe des Suchfeldes*/
+    border-radius: 19px; /*abgerundete ecken des Suchfeldes*/
+}
+
+.search button {
+ background: none;
+ border: none;
+ cursor: pointer;
+}
+
+.search button img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 22px;
+}
