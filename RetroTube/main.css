@@ -20,7 +20,9 @@ header {
 .menu-btn {
     background: none;
 border: none;
-position: absolute;
+display: flex;
+align-items: center;
+gap: 10px;
 top: 10px;
 right: 22px;
 }
