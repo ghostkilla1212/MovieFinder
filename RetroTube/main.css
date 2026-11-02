@@ -16,3 +16,16 @@ header {
     position: absolute; /*positioniert das logo*/
     left: 3%; /*links am rand*/
 }
+
+.menu-btn {
+    background: none;
+border: none;
+}
+
+.menu-btn img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 22px;
+}
