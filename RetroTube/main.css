@@ -18,16 +18,19 @@ header {
 }
 
 .menu-btn {
-    background: none;
+background: none;
 border: none;
-display: flex;
-align-items: center;
-gap: 10px;
+position: absolute;
 top: 10px;
-right: 22px;
+right: 40px;
 }
 
 .menu-btn img {
     width: 30px;
     height: 30px;
+}
+
+.menu-btn-text {
+    color: white;
+    font-size: 16px;
 }
