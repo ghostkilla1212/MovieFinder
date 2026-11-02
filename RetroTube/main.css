@@ -20,12 +20,12 @@ header {
 .menu-btn {
     background: none;
 border: none;
+position: absolute;
+top: 10px;
+right: 22px;
 }
 
 .menu-btn img {
     width: 30px;
     height: 30px;
-    position: absolute;
-    top: 10px;
-    right: 22px;
 }
