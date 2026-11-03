@@ -10,6 +10,7 @@
     background-color: #292929a2;
     border: 2px solid rgba(128, 128, 128, 0.788); /*rahmenfarbe des Suchfeldes*/
     border-radius: 19px; /*abgerundete ecken des Suchfeldes*/
+    color: white; /*textfarbe des Suchfeldes*/
 }
 
 .search button {
