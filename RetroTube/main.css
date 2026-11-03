@@ -19,7 +19,6 @@ header {
 
 
 
-
 .menu-btn {
     position: absolute;
     right: 3%;
@@ -45,6 +44,18 @@ header {
     display: flex;
     align-items: center;
     text-decoration: none;
+}
+
+.pictrue-box {
+        border: 2px solid yellow;
+   box-shadow: 0 0 30px rgba(255, 255, 0, 0.76);
+    top: 23%;
+    left: 59%;
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    overflow: hidden;
+    border-radius: 15px;
 }
 
 
