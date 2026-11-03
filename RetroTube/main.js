@@ -1,18 +1,18 @@
-const img = document.querySelectorAll('.pictures-box img')
+const images = document.querySelectorAll('.picture-box img')
 let currentIndex = 0
 
-img[currentIndex].style.display = "inline"
+images[currentIndex].style.display = "inline"
 
 setInterval(function () {
 
-    img.forEach (
+    images.forEach (
         function (img) {
             img.style.display = "none"
         }
     )
     currentIndex += 1
 
-    if(currentIndex === img.length) {
+    if(currentIndex === images.length) {
         currentIndex = 0;
     }
 
