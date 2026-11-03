@@ -5,6 +5,7 @@ body {
 header {
     background-color: gray; /*hintergrund farbe des headers*/
     position: fixed; /*fixiert die position des headers das er */
+    z-index: 1000;
     top: 0%; /*damit die headerbar oben am rand klebt*/
     left: 0%;
     width: 100%; /*breite 100%*/
@@ -51,8 +52,9 @@ header {
     top: 23%;
     left: 35%;
     position: absolute;
+    z-index: 1000%;
     max-width: 400%;
-    max-height: 200%;
+    max-height: 240%;
     overflow: hidden;
     border-radius: 15px;
 }
