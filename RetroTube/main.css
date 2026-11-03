@@ -17,13 +17,19 @@ header {
     left: 3%; /*links am rand*/
 }
 
+
+
+
 .menu-btn {
-background: none;
-border: none;
-position: absolute;
-top: 38px;
-right: 40px;
-cursor: pointer;
+    position: absolute;
+    right: 3%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
 }
 
 .menu-btn img {
@@ -36,12 +42,11 @@ cursor: pointer;
     font-size: 16px;
 }
 
-.menu-btn-text a {
-    color: white;
+.menu-btn a {
+    display: flex;
+    align-items: center;
     text-decoration: none;
 }
 
-a {
-    text-decoration: none; /*entfernt die unterstreichung der links*/
-}
+
 
