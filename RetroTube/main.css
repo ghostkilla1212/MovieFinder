@@ -51,8 +51,8 @@ header {
     top: 23%;
     left: 35%;
     position: absolute;
-    width: 800px;
-    height: 200px;
+    max-width: 400%;
+    max-height: 200%;
     overflow: hidden;
     border-radius: 15px;
 }
