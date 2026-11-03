@@ -1,17 +1,13 @@
-.movie-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-}
 
-.cards-container {
-    background-color: color-mix(in srgb, rgb(150, 13, 13), rgba(163, 157, 157, 0.596)); /*hintergrund farbe der webseite*/
-    border: 3px solid red;
-    border-radius: 12px;
-    width: 330px;
-    height: 200px;
-    text-align: center;
-    padding: 10px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
