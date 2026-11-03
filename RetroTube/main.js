@@ -18,4 +18,4 @@ setInterval(function () {
 
 
 images[currentIndex].style.display = "inline"
-}, 3000)
+}, 4000)
