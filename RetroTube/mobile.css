@@ -45,6 +45,27 @@
         display: none;
     }
 
+    .account-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+
+    .language-button {
+        width: 38px;
+        height: 38px;
+        justify-content: center;
+        padding: 0;
+    }
+
+    #languageLabel {
+        display: none;
+    }
+
+    .language-options {
+        right: -48px;
+    }
+
     .picture-box {
         width: 92%;
         height: clamp(200px, 58vw, 360px);
@@ -68,8 +89,33 @@
         margin-bottom: 20px;
     }
 
+    body.cartoon-theme .decade-list {
+        box-shadow: 5px 6px 0 #ff6b6b;
+    }
+
+    body.cartoon-theme .daily-top {
+        padding: 16px 12px;
+        box-shadow: 6px 7px 0 #ff6b6b, 10px 11px 0 #202c5a;
+    }
+
+    body.cartoon-theme .daily-card,
+    body.cartoon-theme .daily-card:nth-child(2),
+    body.cartoon-theme .daily-card:nth-child(4) {
+        transform: none;
+    }
+
     .decade-button {
         padding: 9px 16px;
+    }
+
+    .category-list {
+        width: 92%;
+        margin: -6px auto 20px;
+        overflow-x: auto;
+    }
+
+    .category-button {
+        flex: 0 0 auto;
     }
 
     .movie-grid {

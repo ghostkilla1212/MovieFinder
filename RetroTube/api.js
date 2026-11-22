@@ -3,6 +3,8 @@ const movieContainer = document.getElementById('movie-container');
 const movieStatus = document.getElementById('movie-status');
 const dailyTopList = document.getElementById('daily-top-list');
 const dailyTopStatus = document.getElementById('daily-top-status');
+const dailyTopTitle = document.getElementById('daily-top-title');
+const dailyTopNote = document.querySelector('.daily-top-note');
 const searchForm = document.getElementById('searchForm');
 const searchInput = document.getElementById('searchInput');
 const assistantForm = document.getElementById('assistantForm');
@@ -12,9 +14,21 @@ const assistantToggle = document.getElementById('assistantToggle');
 const assistantBackdrop = document.getElementById('assistantBackdrop');
 const assistantClose = document.getElementById('assistantClose');
 const decadeButtons = document.querySelectorAll('.decade-button');
+const categoryButtons = document.querySelectorAll('.category-button');
+const cartoonCategoryButtons = document.querySelectorAll('.cartoon-category-button');
+const cartoonCategoryList = document.getElementById('cartoonCategoryList');
+const cartoonIntro = document.getElementById('cartoonIntro');
+const cartoonIntroClose = document.getElementById('cartoonIntroClose');
+const horrorIntro = document.getElementById('horrorIntro');
+const horrorIntroClose = document.getElementById('horrorIntroClose');
+const movieSentinel = document.getElementById('movie-sentinel');
 const MIN_MOVIE_YEAR = 1900;
 const MAX_MOVIE_YEAR = 1999;
 let latestSearch = 0;
+let currentPage = 1;
+let hasMoreMovies = true;
+let isLoadingMovies = false;
+let currentMovieRequest = { searchTerm: '', filters: {} };
 
 function openAssistant() {
     assistantBackdrop.hidden = false;
@@ -120,9 +134,21 @@ function createSearchQuery(searchTerm, filters = {}) {
         'collection:feature_films',
         `year:[${startYear} TO ${endYear}]`
     ];
+
+    if (filters.category === 'cartoons') {
+        queryParts[0] = '(collection:animationandcartoons OR subject:"cartoon" OR subject:"animation")';
+        if (filters.cartoonQuery) {
+            const escapedQuery = filters.cartoonQuery.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            queryParts.push(`(title:"${escapedQuery}" OR subject:"${escapedQuery}")`);
+        } else if (filters.subject) {
+            queryParts.push(`subject:"${filters.subject}"`);
+        }
+    } else if (filters.category === 'horror') {
+        queryParts[0] = '(subject:"horror" OR subject:"horror film" OR subject:"horror movies" OR title:horror)';
+    }
     const title = searchTerm.trim().replace(/\s+/g, ' ');
 
-    if (filters.subject) {
+    if (filters.subject && filters.category !== 'cartoons') {
         queryParts.push(`subject:"${filters.subject}"`);
     }
 
@@ -222,9 +248,25 @@ function getDailyTopFive(movies) {
     });
 }
 
-async function loadDailyTopFive() {
+async function loadDailyTopFive(category = 'all', subject = '', cartoonQuery = '') {
+    const queryParts = [`year:[${MIN_MOVIE_YEAR} TO ${MAX_MOVIE_YEAR}]`];
+
+    if (category === 'cartoons') {
+        queryParts.unshift('(collection:animationandcartoons OR subject:"cartoon" OR subject:"animation")');
+        if (cartoonQuery) {
+            const escapedQuery = cartoonQuery.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            queryParts.push(`(title:"${escapedQuery}" OR subject:"${escapedQuery}")`);
+        } else if (subject) {
+            queryParts.push(`subject:"${subject}"`);
+        }
+    } else if (category === 'horror') {
+        queryParts.unshift('(subject:"horror" OR subject:"horror film" OR subject:"horror movies" OR title:horror)');
+    } else {
+        queryParts.unshift('collection:feature_films');
+    }
+
     const params = new URLSearchParams();
-    params.set('q', `collection:feature_films AND year:[${MIN_MOVIE_YEAR} TO ${MAX_MOVIE_YEAR}]`);
+    params.set('q', queryParts.join(' AND '));
     params.append('fl[]', 'identifier');
     params.append('fl[]', 'title');
     params.append('fl[]', 'year');
@@ -275,70 +317,123 @@ function scheduleDailyTopFiveRefresh() {
     const delay = Math.max(1000, nextMidnight.getTime() - now.getTime());
 
     window.setTimeout(() => {
-        loadDailyTopFive();
+        const category = getActiveCategory();
+        loadDailyTopFive(
+            category,
+            category === 'cartoons' ? getActiveCartoonSubject() : '',
+            category === 'cartoons' ? getActiveCartoonQuery() : ''
+        );
         scheduleDailyTopFiveRefresh();
     }, delay);
 }
 
-async function loadMovies(searchTerm = '', filters = {}) {
-    const searchId = ++latestSearch;
+async function fetchMoviePage(searchTerm, filters, page) {
     const params = new URLSearchParams();
     params.set('q', createSearchQuery(searchTerm, filters));
     params.append('fl[]', 'identifier');
     params.append('fl[]', 'title');
     params.append('fl[]', 'year');
+    params.append('fl[]', 'licenseurl');
+    params.append('fl[]', 'rights');
+    params.append('fl[]', 'collection');
     params.set('rows', '24');
-    params.set('page', '1');
+    params.set('page', String(page));
     params.set('output', 'json');
     params.append('sort[]', 'downloads desc');
 
+    const response = await fetch(`${archiveSearchUrl}?${params.toString()}`);
+    if (!response.ok) {
+        throw new Error(`The movie API returned HTTP ${response.status}.`);
+    }
+
+    const data = await response.json();
+    if (!Array.isArray(data.response?.docs)) {
+        throw new Error('The movie API returned an invalid response.');
+    }
+
+    const movies = data.response.docs
+        .filter(movie => movie.identifier && movie.title)
+        .map(movie => ({ ...movie, year: Number(movie.year) }))
+        .filter(movie => Number.isInteger(movie.year)
+            && movie.year >= MIN_MOVIE_YEAR
+            && movie.year <= MAX_MOVIE_YEAR);
+
+    return {
+        movies,
+        found: Number(data.response.numFound || 0)
+    };
+}
+
+async function loadMovies(searchTerm = '', filters = {}) {
+    const searchId = ++latestSearch;
+    currentPage = 1;
+    hasMoreMovies = true;
+    isLoadingMovies = false;
+    currentMovieRequest = { searchTerm, filters };
+
     movieStatus.textContent = filters.fromAssistant
         ? 'Searching the retro movie collection ...'
-        : filters.category
-            ? `Loading ${filters.category} movies ...`
-            : 'Loading retro movies ...';
+        : filters.category === 'cartoons'
+            ? 'Loading cartoon movies ...'
+            : filters.category === 'horror'
+                ? 'Loading horror movies ...'
+                : 'Loading retro movies ...';
     if (filters.fromAssistant) {
         assistantResponse.textContent = filters.description;
     }
     movieContainer.replaceChildren(movieStatus);
 
-    try {
-        const response = await fetch(`${archiveSearchUrl}?${params.toString()}`);
-        if (!response.ok) {
-            throw new Error(`The movie API returned HTTP ${response.status}.`);
-        }
+    await loadNextMovies(searchId);
+}
 
-        const data = await response.json();
-        if (!Array.isArray(data.response?.docs)) {
-            throw new Error('The movie API returned an invalid response.');
-        }
+async function loadNextMovies(searchId = latestSearch) {
+    if (isLoadingMovies || !hasMoreMovies || searchId !== latestSearch) {
+        return;
+    }
+
+    isLoadingMovies = true;
+    if (currentPage > 1) {
+        movieStatus.textContent = 'Loading more movies ...';
+        movieContainer.appendChild(movieStatus);
+    }
+
+    try {
+        const result = await fetchMoviePage(
+            currentMovieRequest.searchTerm,
+            currentMovieRequest.filters,
+            currentPage
+        );
 
         if (searchId !== latestSearch) {
             return;
         }
 
-        const movies = data.response.docs
-            .filter(movie => movie.identifier && movie.title)
-            .map(movie => ({ ...movie, year: Number(movie.year) }))
-            .filter(movie => Number.isInteger(movie.year)
-                && movie.year >= MIN_MOVIE_YEAR
-                && movie.year <= MAX_MOVIE_YEAR);
-
-        movieContainer.replaceChildren();
-        if (movies.length === 0) {
-            movieStatus.textContent = filters.category
-                ? `No movies found for ${filters.category}.`
-                : 'No matching retro movies found.';
+        movieStatus.remove();
+        if (currentPage === 1 && result.movies.length === 0) {
+            movieStatus.textContent = currentMovieRequest.filters.category === 'cartoons'
+                ? 'No cartoon movies found.'
+                : currentMovieRequest.filters.category === 'horror'
+                    ? 'No horror movies found.'
+                    : 'No matching retro movies found.';
             movieContainer.appendChild(movieStatus);
-            if (filters.fromAssistant) {
-                assistantResponse.textContent = `${filters.description}. No matching movies found.`;
+            hasMoreMovies = false;
+            if (currentMovieRequest.filters.fromAssistant) {
+                assistantResponse.textContent = `${currentMovieRequest.filters.description}. No matching movies found.`;
             }
             return;
         }
 
-        movies.forEach(movie => movieContainer.appendChild(createMovieCard(movie)));
-        if (filters.fromAssistant) {
-            assistantResponse.textContent = `${filters.description}. Found ${movies.length} movie${movies.length === 1 ? '' : 's'} below.`;
+        result.movies.forEach(movie => movieContainer.appendChild(createMovieCard(movie)));
+        if (currentMovieRequest.filters.fromAssistant) {
+            const prefix = currentPage === 1 ? result.movies.length : 'More';
+            assistantResponse.textContent = `${currentMovieRequest.filters.description}. ${prefix} movie${result.movies.length === 1 ? '' : 's'} loaded below.`;
+        }
+
+        hasMoreMovies = currentPage * 24 < result.found;
+        currentPage += 1;
+        if (!hasMoreMovies) {
+            movieStatus.textContent = 'All movies loaded.';
+            movieContainer.appendChild(movieStatus);
         }
     } catch (error) {
         if (searchId !== latestSearch) {
@@ -346,11 +441,15 @@ async function loadMovies(searchTerm = '', filters = {}) {
         }
 
         console.error('Could not load retro movies:', error);
+        movieStatus.remove();
         movieStatus.textContent = 'Could not load retro movies. Please try again later.';
-        movieContainer.replaceChildren(movieStatus);
-        if (filters.fromAssistant) {
+        movieContainer.appendChild(movieStatus);
+        hasMoreMovies = false;
+        if (currentMovieRequest.filters.fromAssistant) {
             assistantResponse.textContent = 'The movie search failed. Please try again later.';
         }
+    } finally {
+        isLoadingMovies = false;
     }
 }
 
@@ -364,8 +463,14 @@ function setActiveDecade(selectedDecade) {
 
 searchForm.addEventListener('submit', event => {
     event.preventDefault();
-    setActiveDecade('all');
-    loadMovies(searchInput.value);
+    const activeDecade = document.querySelector('.decade-button.is-active');
+    loadMovies(searchInput.value, {
+        startYear: activeDecade ? Number(activeDecade.dataset.startYear) : MIN_MOVIE_YEAR,
+        endYear: activeDecade ? Number(activeDecade.dataset.endYear) : MAX_MOVIE_YEAR,
+        category: getActiveCategory(),
+        subject: getActiveCategory() === 'cartoons' ? getActiveCartoonSubject() : '',
+        cartoonQuery: getActiveCategory() === 'cartoons' ? getActiveCartoonQuery() : ''
+    });
 });
 
 assistantForm.addEventListener('submit', event => {
@@ -384,6 +489,9 @@ assistantForm.addEventListener('submit', event => {
     }
 
     setActiveDecade('all');
+    plan.category = getActiveCategory();
+    plan.subject = plan.category === 'cartoons' ? getActiveCartoonSubject() : '';
+    plan.cartoonQuery = plan.category === 'cartoons' ? getActiveCartoonQuery() : '';
     loadMovies(plan.title, plan);
 });
 
@@ -393,9 +501,152 @@ decadeButtons.forEach(button => {
         loadMovies('', {
             startYear: Number(button.dataset.startYear),
             endYear: Number(button.dataset.endYear),
-            category: button.dataset.decade === 'all' ? '' : button.textContent.trim()
+            category: getActiveCategory(),
+            decade: button.dataset.decade === 'all' ? '' : button.textContent.trim(),
+            subject: getActiveCategory() === 'cartoons' ? getActiveCartoonSubject() : '',
+            cartoonQuery: getActiveCategory() === 'cartoons' ? getActiveCartoonQuery() : ''
         });
     });
+});
+
+function getActiveCategory() {
+    const activeCategory = document.querySelector('.category-button.is-active');
+    return activeCategory ? activeCategory.dataset.category : 'all';
+}
+
+let cartoonIntroTimer = 0;
+let horrorIntroTimer = 0;
+
+function closeCartoonIntro() {
+    window.clearTimeout(cartoonIntroTimer);
+    cartoonIntro.hidden = true;
+    document.body.classList.remove('cartoon-intro-open');
+}
+
+function playCartoonIntro() {
+    window.clearTimeout(cartoonIntroTimer);
+    cartoonIntro.hidden = false;
+    document.body.classList.add('cartoon-intro-open');
+    cartoonIntroClose.focus();
+    cartoonIntroTimer = window.setTimeout(closeCartoonIntro, 6000);
+}
+
+function closeHorrorIntro() {
+    window.clearTimeout(horrorIntroTimer);
+    horrorIntro.hidden = true;
+    document.body.classList.remove('horror-intro-open');
+}
+
+function playHorrorIntro() {
+    window.clearTimeout(horrorIntroTimer);
+    horrorIntro.hidden = false;
+    document.body.classList.add('horror-intro-open');
+    horrorIntroClose.focus();
+    horrorIntroTimer = window.setTimeout(closeHorrorIntro, 6000);
+}
+
+function setActiveCategory(category) {
+    categoryButtons.forEach(button => {
+        const isActive = button.dataset.category === category;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', String(isActive));
+    });
+    document.body.classList.toggle('cartoon-theme', category === 'cartoons');
+    document.body.classList.toggle('horror-theme', category === 'horror');
+    cartoonCategoryList.hidden = category !== 'cartoons';
+
+    if (category === 'cartoons') {
+        dailyTopTitle.textContent = "Today's Top 5 Cartoons";
+        dailyTopNote.textContent = 'Daily rotating picks from the Internet Archive cartoon collection.';
+        loadDailyTopFive('cartoons', getActiveCartoonSubject(), getActiveCartoonQuery());
+        playCartoonIntro();
+    } else if (category === 'horror') {
+        dailyTopTitle.textContent = "Today's Top 5 Horror";
+        dailyTopNote.textContent = 'Daily rotating picks from the Internet Archive horror collection.';
+        loadDailyTopFive('horror');
+        playHorrorIntro();
+    } else {
+        dailyTopTitle.textContent = "Today's Top 5";
+        dailyTopNote.textContent = 'Daily rotating picks from popular Internet Archive movies, not live view counts.';
+        loadDailyTopFive();
+    }
+}
+
+function getActiveCartoonSubject() {
+    const activeSubject = document.querySelector('.cartoon-category-button.is-active');
+    return activeSubject ? activeSubject.dataset.subject : '';
+}
+
+function getActiveCartoonQuery() {
+    const activeSubject = document.querySelector('.cartoon-category-button.is-active');
+    return activeSubject ? activeSubject.dataset.query || '' : '';
+}
+
+cartoonCategoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        cartoonCategoryButtons.forEach(categoryButton => {
+            const isActive = categoryButton === button;
+            categoryButton.classList.toggle('is-active', isActive);
+            categoryButton.setAttribute('aria-pressed', String(isActive));
+        });
+
+        const activeDecade = document.querySelector('.decade-button.is-active');
+        loadMovies('', {
+            startYear: activeDecade ? Number(activeDecade.dataset.startYear) : MIN_MOVIE_YEAR,
+            endYear: activeDecade ? Number(activeDecade.dataset.endYear) : MAX_MOVIE_YEAR,
+            category: 'cartoons',
+            subject: button.dataset.subject,
+            cartoonQuery: button.dataset.query || ''
+        });
+        loadDailyTopFive('cartoons', button.dataset.subject, button.dataset.query || '');
+    });
+});
+
+categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        setActiveCategory(button.dataset.category);
+        const activeDecade = document.querySelector('.decade-button.is-active');
+        loadMovies('', {
+            startYear: activeDecade ? Number(activeDecade.dataset.startYear) : MIN_MOVIE_YEAR,
+            endYear: activeDecade ? Number(activeDecade.dataset.endYear) : MAX_MOVIE_YEAR,
+            category: button.dataset.category,
+            subject: button.dataset.category === 'cartoons' ? getActiveCartoonSubject() : '',
+            cartoonQuery: button.dataset.category === 'cartoons' ? getActiveCartoonQuery() : '',
+            decade: activeDecade && activeDecade.dataset.decade !== 'all'
+                ? activeDecade.textContent.trim()
+                : ''
+        });
+    });
+});
+
+if ('IntersectionObserver' in window) {
+    const movieObserver = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+            loadNextMovies();
+        }
+    }, { rootMargin: '400px 0px' });
+    movieObserver.observe(movieSentinel);
+}
+
+cartoonIntroClose.addEventListener('click', closeCartoonIntro);
+cartoonIntro.addEventListener('click', event => {
+    if (event.target === cartoonIntro) {
+        closeCartoonIntro();
+    }
+});
+horrorIntroClose.addEventListener('click', closeHorrorIntro);
+horrorIntro.addEventListener('click', event => {
+    if (event.target === horrorIntro) {
+        closeHorrorIntro();
+    }
+});
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !cartoonIntro.hidden) {
+        closeCartoonIntro();
+    }
+    if (event.key === 'Escape' && !horrorIntro.hidden) {
+        closeHorrorIntro();
+    }
 });
 
 assistantToggle.addEventListener('click', openAssistant);

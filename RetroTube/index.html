@@ -15,13 +15,30 @@
     <link rel="stylesheet" href="mobile.css">
 </head>
 <body>
+    <div class="horror-intro" id="horrorIntro" role="dialog" aria-label="Horror mode intro" aria-modal="true" hidden>
+        <button class="horror-intro-close" id="horrorIntroClose" type="button" aria-label="Close horror intro">×</button>
+        <div class="horror-intro-fog horror-intro-fog-one" aria-hidden="true"></div>
+        <div class="horror-intro-fog horror-intro-fog-two" aria-hidden="true"></div>
+        <div class="horror-intro-title" aria-hidden="true">HORROR<br><span>AREA</span></div>
+        <div class="horror-intro-progress" aria-hidden="true"></div>
+    </div>
+
+    <div class="cartoon-intro" id="cartoonIntro" role="dialog" aria-label="Cartoon mode intro" aria-modal="true" hidden>
+        <button class="cartoon-intro-close" id="cartoonIntroClose" type="button" aria-label="Close cartoon intro">×</button>
+        <div class="cartoon-intro-sun" aria-hidden="true"></div>
+        <div class="cartoon-intro-cloud cartoon-intro-cloud-left" aria-hidden="true"></div>
+        <div class="cartoon-intro-cloud cartoon-intro-cloud-right" aria-hidden="true"></div>
+        <div class="cartoon-intro-title" aria-hidden="true">CARTOON<br>MOVIES</div>
+        <div class="cartoon-intro-progress" aria-hidden="true"></div>
+    </div>
+
     <header>
         <a class="logo" href="index.html">
             <img src="Assets/logo.png/logo.png" alt="RetroTube home">
         </a>
 
         <form class="search" role="search" id="searchForm">
-            <input type="search" id="searchInput" placeholder="Search retro movies ..." aria-label="Search retro movies">
+            <input type="search" id="searchInput" data-i18n-placeholder="searchPlaceholder" data-i18n-aria="searchPlaceholder" placeholder="Search retro movies ..." aria-label="Search retro movies">
             <button id="searchButton" type="submit" aria-label="Search">
                 <img src="Assets/icons/eye icon.png" alt="">
             </button>
@@ -32,6 +49,22 @@
                 <img src="Assets/icons/MovieFinder.png" alt="">
                 <span class="menu-btn-text">MovieFinder</span>
             </a>
+            <div class="language-menu">
+                <button class="language-button" id="languageButton" type="button" aria-haspopup="true" aria-expanded="false">
+                    <span aria-hidden="true">🌐</span>
+                    <span id="languageLabel">English</span>
+                </button>
+                <div class="language-options" id="languageOptions" hidden>
+                    <button type="button" data-language="en">English</button>
+                    <button type="button" data-language="de">Deutsch</button>
+                    <button type="button" data-language="es">Español</button>
+                    <button type="button" data-language="fr">Français</button>
+                </div>
+            </div>
+            <button id="accountOpen" class="account-button" type="button" aria-haspopup="dialog">
+                <span class="account-avatar" id="headerAccountAvatar" aria-hidden="true">👤</span>
+                <span class="menu-btn-text" id="headerAccountName">Login</span>
+            </button>
             <button id="legalOpen" type="button" aria-haspopup="dialog">
                 <img src="Assets/icons/legal icon.png" alt="">
                 <span class="menu-btn-text">Legal</span>
@@ -39,10 +72,44 @@
         </nav>
     </header>
 
+    <div class="account-backdrop" id="accountBackdrop" hidden>
+        <section class="account-panel" role="dialog" aria-modal="true" aria-labelledby="accountTitle" tabindex="-1">
+            <button class="account-close" id="accountClose" type="button" aria-label="Close account dialog">×</button>
+            <h2 id="accountTitle" data-i18n="createAccount">Create account</h2>
+            <p class="account-note" data-i18n="accountNote">Demo account only — details disappear when the page is refreshed.</p>
+
+            <form class="account-form" id="accountForm">
+                <label for="accountUsername" data-i18n="username">Username</label>
+                <input id="accountUsername" name="username" type="text" maxlength="30" autocomplete="username" required>
+
+                <label for="accountPassword" data-i18n="password">Password</label>
+                <input id="accountPassword" name="password" type="password" maxlength="100" autocomplete="new-password" required>
+
+                <label for="accountImage" data-i18n="profilePicture">Profile picture</label>
+                <input id="accountImage" name="profileImage" type="file" accept="image/*">
+
+                <div class="account-preview-row">
+                    <span class="account-preview" id="accountPreview" aria-hidden="true">👤</span>
+                    <span id="accountPreviewName">Your profile preview</span>
+                </div>
+
+                <button class="account-submit" type="submit" data-i18n="createAccountButton">Create account</button>
+            </form>
+
+            <div class="account-signed-in" id="accountSignedIn" hidden>
+                <span class="account-profile-avatar" id="accountProfileAvatar" aria-hidden="true">👤</span>
+                <h3 id="accountProfileName"></h3>
+                <p>You are signed in for this page session.</p>
+                <button class="account-signout" id="accountSignOut" type="button">Sign out</button>
+            </div>
+        </section>
+    </div>
+
     <div class="legal-backdrop" id="legalBackdrop" hidden>
         <section class="legal-panel" role="dialog" aria-modal="true" aria-labelledby="legalTitle" tabindex="-1">
             <button class="legal-close" id="legalClose" type="button" aria-label="Close legal information">×</button>
             <h2 id="legalTitle">Legal information</h2>
+
             <h3>Movie hosting and source</h3>
             <p>RetroTube does not host, upload, or store movie files on its own servers.</p>
             <p>Movie listings and search results come from the Internet Archive API. Posters and video playback are loaded directly from Internet Archive when available.</p>
@@ -58,8 +125,8 @@
     </section>
 
     <section class="daily-top" aria-labelledby="daily-top-title">
-        <h2 id="daily-top-title">Today's Top 5</h2>
-        <p class="daily-top-note">Daily rotating picks from popular Internet Archive movies, not live view counts.</p>
+        <h2 id="daily-top-title" data-i18n="topFive">Today's Top 5</h2>
+        <p class="daily-top-note" data-i18n="topFiveNote">Daily rotating picks from popular Internet Archive movies, not live view counts.</p>
         <div class="daily-top-list" id="daily-top-list" aria-live="polite">
             <p class="movie-status" id="daily-top-status" role="status">Loading today's picks ...</p>
         </div>
@@ -77,6 +144,23 @@
         <button class="decade-button" type="button" data-decade="1970s" data-start-year="1970" data-end-year="1979" aria-pressed="false">1970s</button>
         <button class="decade-button" type="button" data-decade="1980s" data-start-year="1980" data-end-year="1989" aria-pressed="false">1980s</button>
         <button class="decade-button" type="button" data-decade="1990s" data-start-year="1990" data-end-year="1999" aria-pressed="false">1990s</button>
+    </nav>
+
+    <nav class="category-list" aria-label="Movie categories">
+        <button class="category-button is-active" type="button" data-category="all" aria-pressed="true" data-i18n="allMovies">All movies</button>
+        <button class="category-button" type="button" data-category="cartoons" aria-pressed="false" data-i18n="cartoonMovies">Cartoon Movies</button>
+        <button class="category-button" type="button" data-category="horror" aria-pressed="false">Horror</button>
+    </nav>
+
+    <nav class="cartoon-category-list" id="cartoonCategoryList" aria-label="Cartoon categories" hidden>
+        <button class="cartoon-category-button is-active" type="button" data-subject="" aria-pressed="true" data-i18n="allCartoons">All cartoons</button>
+        <button class="cartoon-category-button" type="button" data-subject="action" aria-pressed="false" data-i18n="action">Action</button>
+        <button class="cartoon-category-button" type="button" data-subject="fantasy" aria-pressed="false" data-i18n="fantasy">Fantasy</button>
+        <button class="cartoon-category-button" type="button" data-subject="comedy" aria-pressed="false" data-i18n="comedy">Comedy</button>
+        <button class="cartoon-category-button" type="button" data-subject="adventure" aria-pressed="false" data-i18n="adventure">Adventure</button>
+        <button class="cartoon-category-button" type="button" data-subject="science fiction" aria-pressed="false" data-i18n="scifi">Sci-Fi</button>
+        <button class="cartoon-category-button" type="button" data-subject="marvel" data-query="marvel" aria-pressed="false">Marvel</button>
+        <button class="cartoon-category-button" type="button" data-subject="christmas" data-query="christmas" aria-pressed="false">Christmas</button>
     </nav>
 
     <button class="assistant-toggle" id="assistantToggle" type="button" aria-haspopup="dialog">
@@ -118,9 +202,12 @@
     <main class="movie-grid" id="movie-container">
         <p class="movie-status" id="movie-status" role="status">Loading retro movies ...</p>
     </main>
+    <div class="movie-sentinel" id="movie-sentinel" aria-hidden="true"></div>
     <script src="api.js"></script>
     <script src="main.js"></script>
     <script src="install.js"></script>
     <script src="legal.js"></script>
+    <script src="account.js"></script>
+    <script src="language.js"></script>
 </body>
 </html>
