@@ -10,47 +10,39 @@
 </head>
 <body>
     <header>
-        <logo class="logo">
-            <a href="index.html"><img class="logo" src="Assets/logo.png/logo.png" alt="Logo"></a>
-        </logo>
+        <a class="logo" href="index.html">
+            <img src="Assets/logo.png/logo.png" alt="RetroTube Startseite">
+        </a>
 
-        <search class="search">
-            <input type="text" id="searchInput" placeholder="search for ...">
-            <button id="searchButton">
-                <img src="Assets/icons/eye icon.png">
+        <form class="search" role="search" id="searchForm">
+            <input type="search" id="searchInput" placeholder="Retrofilme suchen ..." aria-label="Retrofilme suchen">
+            <button id="searchButton" type="submit" aria-label="Suchen">
+                <img src="Assets/icons/eye icon.png" alt="">
             </button>
-        </search>
+        </form>
 
-     <button class="menu-btn">
+        <nav class="menu-btn" aria-label="Navigation">
             <a href="https://movie-finder-three-sandy.vercel.app/">
-                <img src="Assets/icons/MovieFinder.png">
+                <img src="Assets/icons/MovieFinder.png" alt="">
                 <span class="menu-btn-text">MovieFinder</span>
             </a>
             <a href="789.html">
-                <img src="Assets/icons/legal icon.png">
+                <img src="Assets/icons/legal icon.png" alt="">
                 <span class="menu-btn-text">Legal</span>
             </a>
-        </button>
+        </nav>
     </header>
 
-    <section id="pictureBox" class="picture-box">
-    <img src="Assets/images/welcome.png">
-    <img src="Assets/images/40er tv.png">
-    <img src="Assets/images/gitl 40 er.png">
+    <section id="pictureBox" class="picture-box" aria-label="RetroTube Bilder">
+        <img src="Assets/images/welcome.png" alt="Willkommen bei RetroTube">
+        <img src="Assets/images/40er tv.png" alt="Fernseher aus den 1940er Jahren">
+        <img src="Assets/images/gitl 40 er.png" alt="Retro-Bild aus den 1940er Jahren">
     </section>
 
-
- <main class="movie-grid" id="movie-container">
-    <!-- Template für eine einzelne Film-Karte -->
-    <article class="movie-card">
-      <img src="poster-placeholder.jpg" alt="Filmtitel Poster">
-      <div class="movie-info">
-        <h2 class="movie-title">Filmtitel</h2>
-        <p class="movie-year">2026</p>
-      </div>
-    </article>
-  </main>
-    <script src="main.js"></script>
+    <main class="movie-grid" id="movie-container">
+        <p class="movie-status" id="movie-status" role="status">Retrofilme werden geladen ...</p>
+    </main>
     <script src="api.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

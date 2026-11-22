@@ -1,21 +1,17 @@
-const images = document.querySelectorAll('.picture-box img')
-let currentIndex = 0
+const images = document.querySelectorAll('.picture-box img');
+let currentIndex = 0;
 
-images[currentIndex].style.display = "inline"
+function showImage(index) {
+    images.forEach((image, imageIndex) => {
+        image.classList.toggle('is-active', imageIndex === index);
+    });
+}
 
-setInterval(function () {
+showImage(currentIndex);
 
-    images.forEach (
-        function (img) {
-            img.style.display = "none"
-        }
-    )
-    currentIndex += 1
-
-    if(currentIndex === images.length) {
-        currentIndex = 0;
-    }
-
-
-images[currentIndex].style.display = "inline"
-}, 4000)
+if (images.length > 1) {
+    window.setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    }, 4000);
+}
