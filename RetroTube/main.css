@@ -6,59 +6,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-@media (pointer: fine) {
-    body,
-    body * {
-        cursor: none !important;
-    }
-
-    .custom-cursor {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 10000;
-        width: 30px;
-        height: 30px;
-        transform: translate(-50%, -50%);
-        border: 2px solid rgba(255, 255, 255, 0.92);
-        border-radius: 50%;
-        pointer-events: none;
-        mix-blend-mode: difference;
-        transition: width 120ms ease, height 120ms ease, border-width 120ms ease;
-    }
-
-    .custom-cursor-dot {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 4px;
-        height: 4px;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: #fff;
-    }
-
-    .custom-cursor.is-clicking {
-        width: 20px;
-        height: 20px;
-        border-width: 3px;
-    }
-
-    .custom-cursor.is-hovering {
-        width: 44px;
-        height: 44px;
-    }
-
-    body.cursor-hidden .custom-cursor {
-        opacity: 0;
-    }
-}
-
-@media (pointer: coarse), (max-width: 700px) {
-    .custom-cursor {
-        display: none;
-    }
-}
 
 body.cartoon-theme {
     background-color: #75c9f4;
