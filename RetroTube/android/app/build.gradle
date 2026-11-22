@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.application'
+}
+
+def retroTubeRoot = rootProject.projectDir.parentFile
+def generatedWebAssets = layout.buildDirectory.dir('generated/retroTubeAssets')
+
+tasks.register('copyRetroTubeAssets', Sync) {
+    from(retroTubeRoot) {
+        include 'index.html'
+        include 'api.js'
+        include 'main.js'
+        include '*.css'
+        include 'Assets/**'
+    }
+    into(generatedWebAssets)
+}
+
+android {
+    namespace 'com.moviefinder.retrotube'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.moviefinder.retrotube'
+        minSdk 23
+        targetSdk 28
+        versionCode 1
+        versionName '1.0'
+    }
+
+    sourceSets {
+        main.assets.srcDir(generatedWebAssets)
+    }
+
+    tasks.named('preBuild').configure {
+        dependsOn tasks.named('copyRetroTubeAssets')
+    }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.12.1'
+}

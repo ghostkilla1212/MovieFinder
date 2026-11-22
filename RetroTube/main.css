@@ -145,6 +145,15 @@ header {
     cursor: pointer;
 }
 
+.play-btn:focus-visible,
+.fullscreen-btn:focus-visible,
+.menu-btn a:focus-visible,
+.search input:focus-visible,
+.search button:focus-visible {
+    outline: 3px solid #e7b75b;
+    outline-offset: 3px;
+}
+
 .play-btn::after {
     position: absolute;
     top: 12px;

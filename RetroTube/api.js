@@ -33,7 +33,7 @@ function createMovieCard(movie) {
     const playButton = document.createElement('button');
     playButton.className = 'play-btn';
     playButton.type = 'button';
-    playButton.setAttribute('aria-label', `${movie.title} abspielen`);
+    playButton.setAttribute('aria-label', `Play ${movie.title}`);
     playButton.addEventListener('click', () => {
         const video = document.createElement('iframe');
         video.src = `https://archive.org/embed/${encodeURIComponent(movie.identifier)}`;
@@ -48,12 +48,12 @@ function createMovieCard(movie) {
     const fullscreenButton = document.createElement('button');
     fullscreenButton.className = 'fullscreen-btn';
     fullscreenButton.type = 'button';
-    fullscreenButton.textContent = 'Vollbild';
-    fullscreenButton.setAttribute('aria-label', `${movie.title} im Vollbild anzeigen`);
+    fullscreenButton.textContent = 'Fullscreen';
+    fullscreenButton.setAttribute('aria-label', `View ${movie.title} in fullscreen`);
     fullscreenButton.addEventListener('click', async () => {
         if (typeof player.requestFullscreen !== 'function') {
-            fullscreenButton.textContent = 'Nicht verfügbar';
-            fullscreenButton.title = 'Vollbild wird von diesem Browser nicht unterstützt.';
+            fullscreenButton.textContent = 'Unavailable';
+            fullscreenButton.title = 'Fullscreen is not supported by this browser.';
             fullscreenButton.disabled = true;
             return;
         }
@@ -61,9 +61,9 @@ function createMovieCard(movie) {
         try {
             await player.requestFullscreen();
         } catch (error) {
-            console.error('Vollbild konnte nicht gestartet werden:', error);
-            fullscreenButton.textContent = 'Fehler';
-            fullscreenButton.title = 'Vollbild konnte nicht gestartet werden.';
+            console.error('Could not enter fullscreen:', error);
+            fullscreenButton.textContent = 'Error';
+            fullscreenButton.title = 'Could not enter fullscreen.';
         }
     });
     player.appendChild(fullscreenButton);
@@ -77,7 +77,7 @@ function createMovieCard(movie) {
 
     const year = document.createElement('p');
     year.className = 'movie-meta';
-    year.textContent = `Erscheinungsjahr: ${movie.year}`;
+    year.textContent = `Release year: ${movie.year}`;
 
     info.append(title, year);
     card.append(player, info);
@@ -96,18 +96,18 @@ async function loadMovies(searchTerm = '') {
     params.set('output', 'json');
     params.append('sort[]', 'downloads desc');
 
-    movieStatus.textContent = 'Retrofilme werden geladen ...';
+    movieStatus.textContent = 'Loading retro movies ...';
     movieContainer.replaceChildren(movieStatus);
 
     try {
         const response = await fetch(`${archiveSearchUrl}?${params.toString()}`);
         if (!response.ok) {
-            throw new Error(`Die Film-API antwortet mit HTTP ${response.status}.`);
+            throw new Error(`The movie API returned HTTP ${response.status}.`);
         }
 
         const data = await response.json();
         if (!Array.isArray(data.response?.docs)) {
-            throw new Error('Die Film-API hat eine ungültige Antwort geliefert.');
+            throw new Error('The movie API returned an invalid response.');
         }
 
         if (searchId !== latestSearch) {
@@ -121,7 +121,7 @@ async function loadMovies(searchTerm = '') {
 
         movieContainer.replaceChildren();
         if (movies.length === 0) {
-            movieStatus.textContent = 'Keine passenden Retrofilme gefunden.';
+            movieStatus.textContent = 'No matching retro movies found.';
             movieContainer.appendChild(movieStatus);
             return;
         }
@@ -132,8 +132,8 @@ async function loadMovies(searchTerm = '') {
             return;
         }
 
-        console.error('Fehler beim Laden der Retrofilme:', error);
-        movieStatus.textContent = 'Die Retrofilme konnten nicht geladen werden. Bitte versuche es später erneut.';
+        console.error('Could not load retro movies:', error);
+        movieStatus.textContent = 'Could not load retro movies. Please try again later.';
         movieContainer.replaceChildren(movieStatus);
     }
 }

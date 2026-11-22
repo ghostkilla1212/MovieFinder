@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,17 +11,17 @@
 <body>
     <header>
         <a class="logo" href="index.html">
-            <img src="Assets/logo.png/logo.png" alt="RetroTube Startseite">
+            <img src="Assets/logo.png/logo.png" alt="RetroTube home">
         </a>
 
         <form class="search" role="search" id="searchForm">
-            <input type="search" id="searchInput" placeholder="Retrofilme suchen ..." aria-label="Retrofilme suchen">
-            <button id="searchButton" type="submit" aria-label="Suchen">
+            <input type="search" id="searchInput" placeholder="Search retro movies ..." aria-label="Search retro movies">
+            <button id="searchButton" type="submit" aria-label="Search">
                 <img src="Assets/icons/eye icon.png" alt="">
             </button>
         </form>
 
-        <nav class="menu-btn" aria-label="Navigation">
+        <nav class="menu-btn" aria-label="Main navigation">
             <a href="https://movie-finder-three-sandy.vercel.app/">
                 <img src="Assets/icons/MovieFinder.png" alt="">
                 <span class="menu-btn-text">MovieFinder</span>
@@ -33,14 +33,14 @@
         </nav>
     </header>
 
-    <section id="pictureBox" class="picture-box" aria-label="RetroTube Bilder">
-        <img src="Assets/images/welcome.png" alt="Willkommen bei RetroTube">
-        <img src="Assets/images/40er tv.png" alt="Fernseher aus den 1940er Jahren">
-        <img src="Assets/images/gitl 40 er.png" alt="Retro-Bild aus den 1940er Jahren">
+    <section id="pictureBox" class="picture-box" aria-label="RetroTube image carousel">
+        <img src="Assets/images/welcome.png" alt="Welcome to RetroTube">
+        <img src="Assets/images/40er tv.png" alt="A television from the 1940s">
+        <img src="Assets/images/gitl 40 er.png" alt="A retro image from the 1940s">
     </section>
 
     <main class="movie-grid" id="movie-container">
-        <p class="movie-status" id="movie-status" role="status">Retrofilme werden geladen ...</p>
+        <p class="movie-status" id="movie-status" role="status">Loading retro movies ...</p>
     </main>
     <script src="api.js"></script>
     <script src="main.js"></script>
