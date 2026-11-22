@@ -109,6 +109,30 @@ header {
     object-fit: cover;
 }
 
+.player-container:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: auto;
+    background: #000;
+}
+
+.fullscreen-btn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    z-index: 1;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    cursor: pointer;
+}
+
+.fullscreen-btn:disabled {
+    cursor: not-allowed;
+}
+
 .play-btn {
     position: absolute;
     inset: 50% auto auto 50%;

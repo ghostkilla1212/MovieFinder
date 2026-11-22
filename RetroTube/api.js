@@ -41,8 +41,32 @@ function createMovieCard(movie) {
         video.allow = 'autoplay; fullscreen';
         video.allowFullscreen = true;
         player.replaceChildren(video);
+        player.appendChild(fullscreenButton);
     });
     player.appendChild(playButton);
+
+    const fullscreenButton = document.createElement('button');
+    fullscreenButton.className = 'fullscreen-btn';
+    fullscreenButton.type = 'button';
+    fullscreenButton.textContent = 'Vollbild';
+    fullscreenButton.setAttribute('aria-label', `${movie.title} im Vollbild anzeigen`);
+    fullscreenButton.addEventListener('click', async () => {
+        if (typeof player.requestFullscreen !== 'function') {
+            fullscreenButton.textContent = 'Nicht verfügbar';
+            fullscreenButton.title = 'Vollbild wird von diesem Browser nicht unterstützt.';
+            fullscreenButton.disabled = true;
+            return;
+        }
+
+        try {
+            await player.requestFullscreen();
+        } catch (error) {
+            console.error('Vollbild konnte nicht gestartet werden:', error);
+            fullscreenButton.textContent = 'Fehler';
+            fullscreenButton.title = 'Vollbild konnte nicht gestartet werden.';
+        }
+    });
+    player.appendChild(fullscreenButton);
 
     const info = document.createElement('div');
     info.className = 'movie-info';
@@ -62,13 +86,14 @@ function createMovieCard(movie) {
 
 async function loadMovies(searchTerm = '') {
     const searchId = ++latestSearch;
-    const params = new URLSearchParams({
-        q: createSearchQuery(searchTerm),
-        'fl[]': 'identifier,title,year',
-        rows: '24',
-        page: '1',
-        output: 'json'
-    });
+    const params = new URLSearchParams();
+    params.set('q', createSearchQuery(searchTerm));
+    params.append('fl[]', 'identifier');
+    params.append('fl[]', 'title');
+    params.append('fl[]', 'year');
+    params.set('rows', '24');
+    params.set('page', '1');
+    params.set('output', 'json');
     params.append('sort[]', 'downloads desc');
 
     movieStatus.textContent = 'Retrofilme werden geladen ...';
@@ -81,11 +106,15 @@ async function loadMovies(searchTerm = '') {
         }
 
         const data = await response.json();
+        if (!Array.isArray(data.response?.docs)) {
+            throw new Error('Die Film-API hat eine ungültige Antwort geliefert.');
+        }
+
         if (searchId !== latestSearch) {
             return;
         }
 
-        const movies = (data.response?.docs || [])
+        const movies = data.response.docs
             .filter(movie => movie.identifier && movie.title)
             .map(movie => ({ ...movie, year: Number(movie.year) }))
             .filter(movie => Number.isInteger(movie.year) && movie.year >= 1900 && movie.year <= 1969);
