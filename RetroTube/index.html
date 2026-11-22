@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RetroTube</title>
+    <meta name="theme-color" content="#181818">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="Assets/logo.png/logo.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="Assets/retrotube-icon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="search.css">
     <link rel="stylesheet" href="mobile.css">
@@ -26,12 +32,24 @@
                 <img src="Assets/icons/MovieFinder.png" alt="">
                 <span class="menu-btn-text">MovieFinder</span>
             </a>
-            <a href="789.html">
+            <button id="legalOpen" type="button" aria-haspopup="dialog">
                 <img src="Assets/icons/legal icon.png" alt="">
                 <span class="menu-btn-text">Legal</span>
-            </a>
+            </button>
         </nav>
     </header>
+
+    <div class="legal-backdrop" id="legalBackdrop" hidden>
+        <section class="legal-panel" role="dialog" aria-modal="true" aria-labelledby="legalTitle" tabindex="-1">
+            <button class="legal-close" id="legalClose" type="button" aria-label="Close legal information">×</button>
+            <h2 id="legalTitle">Legal information</h2>
+            <h3>Movie hosting and source</h3>
+            <p>RetroTube does not host, upload, or store movie files on its own servers.</p>
+            <p>Movie listings and search results come from the Internet Archive API. Posters and video playback are loaded directly from Internet Archive when available.</p>
+            <p>RetroTube does not own or control this content. Check each item's Internet Archive page for availability and rights information.</p>
+            <a href="https://archive.org/" target="_blank" rel="noopener noreferrer">Visit Internet Archive</a>
+        </section>
+    </div>
 
     <section id="pictureBox" class="picture-box" aria-label="RetroTube image carousel">
         <img src="Assets/images/welcome.png" alt="Welcome to RetroTube">
@@ -39,27 +57,70 @@
         <img src="Assets/images/gitl 40 er.png" alt="A retro image from the 1940s">
     </section>
 
-    <section class="assistant-panel" aria-labelledby="assistant-title">
-        <h1 id="assistant-title">Ask RetroTube</h1>
-        <p>Describe a movie, genre, or decade to search the retro movie collection.</p>
-        <form class="assistant-form" id="assistantForm">
-            <input
-                type="text"
-                id="assistantInput"
-                placeholder="e.g. Find a horror movie from the 1940s"
-                aria-label="Ask RetroTube to find a movie"
-                required>
-            <button type="submit">Ask</button>
-        </form>
-        <p class="assistant-response" id="assistantResponse" role="status" aria-live="polite">
-            This local search helper understands movie titles, genres, and years.
-        </p>
+    <section class="daily-top" aria-labelledby="daily-top-title">
+        <h2 id="daily-top-title">Today's Top 5</h2>
+        <p class="daily-top-note">Daily rotating picks from popular Internet Archive movies, not live view counts.</p>
+        <div class="daily-top-list" id="daily-top-list" aria-live="polite">
+            <p class="movie-status" id="daily-top-status" role="status">Loading today's picks ...</p>
+        </div>
     </section>
+
+    <nav class="decade-list" aria-label="Movie decades">
+        <button class="decade-button is-active" type="button" data-decade="all" data-start-year="1900" data-end-year="1999" aria-pressed="true">All years</button>
+        <button class="decade-button" type="button" data-decade="1900s" data-start-year="1900" data-end-year="1909" aria-pressed="false">1900s</button>
+        <button class="decade-button" type="button" data-decade="1910s" data-start-year="1910" data-end-year="1919" aria-pressed="false">1910s</button>
+        <button class="decade-button" type="button" data-decade="1920s" data-start-year="1920" data-end-year="1929" aria-pressed="false">1920s</button>
+        <button class="decade-button" type="button" data-decade="1930s" data-start-year="1930" data-end-year="1939" aria-pressed="false">1930s</button>
+        <button class="decade-button" type="button" data-decade="1940s" data-start-year="1940" data-end-year="1949" aria-pressed="false">1940s</button>
+        <button class="decade-button" type="button" data-decade="1950s" data-start-year="1950" data-end-year="1959" aria-pressed="false">1950s</button>
+        <button class="decade-button" type="button" data-decade="1960s" data-start-year="1960" data-end-year="1969" aria-pressed="false">1960s</button>
+        <button class="decade-button" type="button" data-decade="1970s" data-start-year="1970" data-end-year="1979" aria-pressed="false">1970s</button>
+        <button class="decade-button" type="button" data-decade="1980s" data-start-year="1980" data-end-year="1989" aria-pressed="false">1980s</button>
+        <button class="decade-button" type="button" data-decade="1990s" data-start-year="1990" data-end-year="1999" aria-pressed="false">1990s</button>
+    </nav>
+
+    <button class="assistant-toggle" id="assistantToggle" type="button" aria-haspopup="dialog">
+        <span aria-hidden="true">🤖</span>
+        <span>Ask AI</span>
+    </button>
+
+    <div class="assistant-backdrop" id="assistantBackdrop" hidden>
+        <section class="assistant-panel" role="dialog" aria-modal="true" aria-labelledby="assistant-title" tabindex="-1">
+            <button class="assistant-close" id="assistantClose" type="button" aria-label="Close assistant">×</button>
+            <h1 id="assistant-title">Ask AI</h1>
+            <p>Describe a movie, genre, or decade to search the retro movie collection.</p>
+            <form class="assistant-form" id="assistantForm">
+                <input
+                    type="text"
+                    id="assistantInput"
+                    placeholder="e.g. Find a horror movie from the 1940s"
+                    aria-label="Ask RetroTube to find a movie"
+                    required>
+                <button type="submit">Ask</button>
+            </form>
+            <p class="assistant-response" id="assistantResponse" role="status" aria-live="polite">
+                This local search helper understands movie titles, genres, and years.
+            </p>
+        </section>
+    </div>
+
+    <div class="install-backdrop" id="installBackdrop" hidden>
+        <section class="install-dialog" role="dialog" aria-modal="true" aria-labelledby="installTitle">
+            <button class="install-close" id="installClose" type="button" aria-label="Close install prompt">×</button>
+            <div class="install-robot" aria-hidden="true">🤖</div>
+            <h2 id="installTitle">Install RetroTube</h2>
+            <p id="installMessage">Add RetroTube to your home screen for quick access.</p>
+            <button class="install-action" id="installAction" type="button">Install app</button>
+            <button class="install-dismiss" id="installDismiss" type="button">Not now</button>
+        </section>
+    </div>
 
     <main class="movie-grid" id="movie-container">
         <p class="movie-status" id="movie-status" role="status">Loading retro movies ...</p>
     </main>
     <script src="api.js"></script>
     <script src="main.js"></script>
+    <script src="install.js"></script>
+    <script src="legal.js"></script>
 </body>
 </html>
