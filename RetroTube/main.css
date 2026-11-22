@@ -78,6 +78,59 @@ header {
     display: block;
 }
 
+.assistant-panel {
+    box-sizing: border-box;
+    width: min(1100px, 92%);
+    margin: 0 auto 32px;
+    padding: 20px;
+    border: 1px solid #555;
+    border-radius: 10px;
+    background: #383636;
+}
+
+.assistant-panel h1 {
+    margin: 0 0 8px;
+    font-size: 1.4rem;
+}
+
+.assistant-panel > p {
+    margin: 0 0 14px;
+    color: #ddd;
+}
+
+.assistant-form {
+    display: flex;
+    gap: 10px;
+}
+
+.assistant-form input {
+    box-sizing: border-box;
+    min-width: 0;
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #777;
+    border-radius: 6px;
+    background: #292727;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.assistant-form button {
+    padding: 0 20px;
+    border: 0;
+    border-radius: 6px;
+    background: #e7b75b;
+    color: #292727;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.assistant-panel .assistant-response {
+    margin: 12px 0 0;
+    color: #ddd;
+    font-size: 0.9rem;
+}
+
 .movie-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -149,7 +202,9 @@ header {
 .fullscreen-btn:focus-visible,
 .menu-btn a:focus-visible,
 .search input:focus-visible,
-.search button:focus-visible {
+.search button:focus-visible,
+.assistant-form input:focus-visible,
+.assistant-form button:focus-visible {
     outline: 3px solid #e7b75b;
     outline-offset: 3px;
 }

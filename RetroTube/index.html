@@ -39,6 +39,23 @@
         <img src="Assets/images/gitl 40 er.png" alt="A retro image from the 1940s">
     </section>
 
+    <section class="assistant-panel" aria-labelledby="assistant-title">
+        <h1 id="assistant-title">Ask RetroTube</h1>
+        <p>Describe a movie, genre, or decade to search the retro movie collection.</p>
+        <form class="assistant-form" id="assistantForm">
+            <input
+                type="text"
+                id="assistantInput"
+                placeholder="e.g. Find a horror movie from the 1940s"
+                aria-label="Ask RetroTube to find a movie"
+                required>
+            <button type="submit">Ask</button>
+        </form>
+        <p class="assistant-response" id="assistantResponse" role="status" aria-live="polite">
+            This local search helper understands movie titles, genres, and years.
+        </p>
+    </section>
+
     <main class="movie-grid" id="movie-container">
         <p class="movie-status" id="movie-status" role="status">Loading retro movies ...</p>
     </main>

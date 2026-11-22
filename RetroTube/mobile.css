@@ -56,6 +56,14 @@
         gap: 14px;
     }
 
+    .assistant-panel {
+        padding: 14px;
+    }
+
+    .assistant-form button {
+        padding: 0 14px;
+    }
+
     .movie-info {
         padding: 10px;
     }
