@@ -24,11 +24,86 @@ const horrorIntroClose = document.getElementById('horrorIntroClose');
 const movieSentinel = document.getElementById('movie-sentinel');
 const MIN_MOVIE_YEAR = 1900;
 const MAX_MOVIE_YEAR = 1999;
+const FAVORITES_STORAGE_KEY = 'retrotube-favorites-v1';
 let latestSearch = 0;
 let currentPage = 1;
 let hasMoreMovies = true;
 let isLoadingMovies = false;
 let currentMovieRequest = { searchTerm: '', filters: {} };
+
+function getFavorites() {
+    try {
+        const storedFavorites = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]');
+        return Array.isArray(storedFavorites) ? storedFavorites : [];
+    } catch (error) {
+        console.error('Could not read saved favorites:', error);
+        return [];
+    }
+}
+
+function saveFavorites(favorites) {
+    try {
+        localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
+    } catch (error) {
+        console.error('Could not save favorites:', error);
+    }
+    updateFavoriteCount();
+}
+
+function isFavorite(identifier) {
+    return getFavorites().some(movie => movie.identifier === identifier);
+}
+
+function toggleFavorite(movie) {
+    const favorites = getFavorites();
+    const existingIndex = favorites.findIndex(savedMovie => savedMovie.identifier === movie.identifier);
+    if (existingIndex >= 0) {
+        favorites.splice(existingIndex, 1);
+    } else {
+        favorites.unshift({
+            identifier: movie.identifier,
+            title: movie.title,
+            year: movie.year
+        });
+    }
+    saveFavorites(favorites);
+    return existingIndex < 0;
+}
+
+function updateFavoriteCount() {
+    const favoriteCount = document.getElementById('favoriteCount');
+    if (favoriteCount) {
+        favoriteCount.textContent = String(getFavorites().length);
+    }
+
+    document.querySelectorAll('.favorite-btn').forEach(button => {
+        const saved = isFavorite(button.dataset.identifier);
+        button.classList.toggle('is-favorite', saved);
+        button.setAttribute('aria-pressed', String(saved));
+        button.title = saved ? 'Remove from favorites' : 'Add to favorites';
+        button.setAttribute('aria-label', saved
+            ? `Remove ${button.dataset.title} from favorites`
+            : `Add ${button.dataset.title} to favorites`);
+    });
+}
+
+function loadFavorites() {
+    ++latestSearch;
+    hasMoreMovies = false;
+    isLoadingMovies = false;
+    currentMovieRequest = { searchTerm: '', filters: { category: 'favorites' } };
+    const favorites = getFavorites();
+
+    movieContainer.replaceChildren();
+    if (favorites.length === 0) {
+        movieStatus.textContent = 'No favorite movies saved yet.';
+        movieContainer.appendChild(movieStatus);
+        return;
+    }
+
+    favorites.forEach(movie => movieContainer.appendChild(createMovieCard(movie)));
+    updateFavoriteCount();
+}
 
 function openAssistant() {
     assistantBackdrop.hidden = false;
@@ -190,6 +265,29 @@ function createMovieCard(movie, rank = 0) {
         player.appendChild(fullscreenButton);
     });
     player.appendChild(playButton);
+
+    const favoriteButton = document.createElement('button');
+    favoriteButton.className = 'favorite-btn';
+    favoriteButton.type = 'button';
+    favoriteButton.dataset.identifier = movie.identifier;
+    favoriteButton.dataset.title = movie.title;
+    favoriteButton.textContent = '★';
+    const savedInitially = isFavorite(movie.identifier);
+    favoriteButton.classList.toggle('is-favorite', savedInitially);
+    favoriteButton.setAttribute('aria-pressed', String(savedInitially));
+    favoriteButton.title = savedInitially ? 'Remove from favorites' : 'Add to favorites';
+    favoriteButton.setAttribute('aria-label', savedInitially
+        ? `Remove ${movie.title} from favorites`
+        : `Add ${movie.title} to favorites`);
+    favoriteButton.addEventListener('click', () => {
+        toggleFavorite(movie);
+        if (getActiveCategory() === 'favorites') {
+            loadFavorites();
+        } else {
+            updateFavoriteCount();
+        }
+    });
+    player.appendChild(favoriteButton);
 
     const fullscreenButton = document.createElement('button');
     fullscreenButton.className = 'fullscreen-btn';
@@ -463,6 +561,9 @@ function setActiveDecade(selectedDecade) {
 
 searchForm.addEventListener('submit', event => {
     event.preventDefault();
+    if (getActiveCategory() === 'favorites') {
+        setActiveCategory('all');
+    }
     const activeDecade = document.querySelector('.decade-button.is-active');
     loadMovies(searchInput.value, {
         startYear: activeDecade ? Number(activeDecade.dataset.startYear) : MIN_MOVIE_YEAR,
@@ -475,6 +576,9 @@ searchForm.addEventListener('submit', event => {
 
 assistantForm.addEventListener('submit', event => {
     event.preventDefault();
+    if (getActiveCategory() === 'favorites') {
+        setActiveCategory('all');
+    }
     const question = assistantInput.value.trim();
     if (!question) {
         return;
@@ -498,6 +602,9 @@ assistantForm.addEventListener('submit', event => {
 decadeButtons.forEach(button => {
     button.addEventListener('click', () => {
         setActiveDecade(button.dataset.decade);
+        if (getActiveCategory() === 'favorites') {
+            setActiveCategory('all');
+        }
         loadMovies('', {
             startYear: Number(button.dataset.startYear),
             endYear: Number(button.dataset.endYear),
@@ -555,17 +662,22 @@ function setActiveCategory(category) {
     document.body.classList.toggle('horror-theme', category === 'horror');
     cartoonCategoryList.hidden = category !== 'cartoons';
 
-    if (category === 'cartoons') {
+    if (category === 'favorites') {
+        document.querySelector('.daily-top').hidden = true;
+    } else if (category === 'cartoons') {
+        document.querySelector('.daily-top').hidden = false;
         dailyTopTitle.textContent = "Today's Top 5 Cartoons";
         dailyTopNote.textContent = 'Daily rotating picks from the Internet Archive cartoon collection.';
         loadDailyTopFive('cartoons', getActiveCartoonSubject(), getActiveCartoonQuery());
         playCartoonIntro();
     } else if (category === 'horror') {
+        document.querySelector('.daily-top').hidden = false;
         dailyTopTitle.textContent = "Today's Top 5 Horror";
         dailyTopNote.textContent = 'Daily rotating picks from the Internet Archive horror collection.';
         loadDailyTopFive('horror');
         playHorrorIntro();
     } else {
+        document.querySelector('.daily-top').hidden = false;
         dailyTopTitle.textContent = "Today's Top 5";
         dailyTopNote.textContent = 'Daily rotating picks from popular Internet Archive movies, not live view counts.';
         loadDailyTopFive();
@@ -605,6 +717,13 @@ cartoonCategoryButtons.forEach(button => {
 categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
         setActiveCategory(button.dataset.category);
+        if (button.dataset.category === 'favorites') {
+            document.querySelector('.daily-top').hidden = true;
+            cartoonCategoryList.hidden = true;
+            loadFavorites();
+            return;
+        }
+        document.querySelector('.daily-top').hidden = false;
         const activeDecade = document.querySelector('.decade-button.is-active');
         loadMovies('', {
             startYear: activeDecade ? Number(activeDecade.dataset.startYear) : MIN_MOVIE_YEAR,
@@ -648,6 +767,17 @@ document.addEventListener('keydown', event => {
         closeHorrorIntro();
     }
 });
+
+window.addEventListener('storage', event => {
+    if (event.key === FAVORITES_STORAGE_KEY) {
+        updateFavoriteCount();
+        if (getActiveCategory() === 'favorites') {
+            loadFavorites();
+        }
+    }
+});
+
+updateFavoriteCount();
 
 assistantToggle.addEventListener('click', openAssistant);
 assistantClose.addEventListener('click', closeAssistant);

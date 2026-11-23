@@ -27,6 +27,7 @@ const translations = {
         adventure: 'Adventure',
         scifi: 'Sci-Fi',
         askAI: 'Ask AI',
+        favorites: 'Favorites',
         loading: 'Loading retro movies ...'
     },
     de: {
@@ -53,6 +54,7 @@ const translations = {
         adventure: 'Abenteuer',
         scifi: 'Science-Fiction',
         askAI: 'KI fragen',
+        favorites: 'Favoriten',
         loading: 'Retromovies werden geladen ...'
     },
     es: {
@@ -79,6 +81,7 @@ const translations = {
         adventure: 'Aventura',
         scifi: 'Ciencia ficción',
         askAI: 'Preguntar a IA',
+        favorites: 'Favoritos',
         loading: 'Cargando películas clásicas ...'
     },
     fr: {
@@ -105,6 +108,7 @@ const translations = {
         adventure: 'Aventure',
         scifi: 'Science-fiction',
         askAI: 'Demander à IA',
+        favorites: 'Favoris',
         loading: 'Chargement des films rétro ...'
     }
 };
